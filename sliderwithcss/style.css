@@ -1,0 +1,81 @@
+body {
+  background-color: rgba(31, 202, 174, 0.466);
+}
+.slider {
+  width: 100%;
+  border: 2px solid rgb(255, 255, 25);
+  /* height: var(--height); */
+  /* overflow: hidden; */
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 10% 90%,
+    transparent
+  );
+}
+.slider .list {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 210px;
+  gap: 1px;
+  min-width: calc(var(--width) * var(--items));
+  position: relative;
+  transform-style: preserve-3d;
+  transform: perspective(1000px);
+}
+
+.slider .list .item {
+  width: var(--width);
+  position: absolute;
+  left: 100%;
+  animation: autorun 10s linear infinite;
+  animation-delay: calc((10s / var(--items)) * (var(--position) - 1));
+  transition: 0.5s;
+  filter: brightness(0.5);
+}
+
+.slider:hover .item {
+  animation-play-state: paused;
+}
+
+.slider .list .item img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+@keyframes autorun {
+  0% {
+    left: 100%;
+  }
+  100% {
+    left: calc(var(--width) * -1);
+  }
+}
+
+/* hiver effect in 3d */
+
+.list .item:hover {
+  filter: brightness(1);
+  transform: translateZ(200px);
+}
+
+.list .item:hover + .item {
+  filter: brightness(0.7);
+  transform: translateZ(150px) rotateY(40deg);
+}
+
+.list .item:hover + .item + .item {
+  filter: brightness(0.5);
+  transform: translateZ(100px) rotateY(20deg);
+}
+
+.list .item:has(+ *:hover) {
+  filter: brightness(0.7);
+  transform: translateZ(150px) rotateY(-40deg);
+}
+.list .item:has(+ * + *:hover) {
+  filter: brightness(0.5);
+  transform: translateZ(100px) rotateY(-20deg);
+}
